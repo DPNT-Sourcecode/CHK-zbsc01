@@ -18,7 +18,7 @@ public class CheckoutSolution {
         priceMap.put('B', 30);
         priceMap.put('C', 20);
         priceMap.put('D', 15);
-        priceMap.put('E', 48);
+        priceMap.put('E', 40);
 
         Map<Character, int[]> offerMap = new HashMap<>();
         offerMap.put('A', new int[]{3, 130});
@@ -55,4 +55,5 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
 
