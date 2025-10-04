@@ -8,6 +8,7 @@ public class HelloSolution {
             throw new IllegalArgumentException("Name can not be empty.");
         }
 
-        return "Hello, " + friendName + "!";
+        return "Hello, World!";
     }
 }
+
