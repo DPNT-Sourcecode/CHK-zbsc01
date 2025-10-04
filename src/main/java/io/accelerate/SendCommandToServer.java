@@ -59,7 +59,7 @@ public class SendCommandToServer {
                 .withSolutionFor("sum", entry::sum)
                 .withSolutionFor("hello", entry::hello)
                 .withSolutionFor("fizz_buzz", entry::fizzBuzz)
-//                .withSolutionFor("checkout", entry::checkout)
+                .withSolutionFor("checkout", entry::checkout)
                 .withSolutionFor("rabbit_hole", entry::rabbitHole)
                 .withSolutionFor("amazing_maze", entry::amazingMaze)
                 .withSolutionFor("ultimate_maze", entry::ultimateMaze)
@@ -83,4 +83,3 @@ public class SendCommandToServer {
     }
 
 }
-
