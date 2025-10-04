@@ -23,10 +23,11 @@ public class CheckoutSolution {
         Map<Character, Integer> countMap = new HashMap<>();
         for (char item : skus.toCharArray()) {
             if (!priceMap.containsKey(item)) {
-                return 0;
+                return -1; // Fixed: return -1 for illegal SKU
             }
             countMap.put(item, countMap.getOrDefault(item, 0) + 1);
         }
+
         int totalCost = 0;
         for (Map.Entry<Character, Integer> entry : countMap.entrySet()) {
             char item = entry.getKey();
@@ -40,16 +41,12 @@ public class CheckoutSolution {
                 int offerCount = count / offerQuantity;
                 int remainder = count % offerQuantity;
 
-                totalCost += offerCount * offerPrice;
-                totalCost += remainder * priceMap.get(item);
-
+                totalCost += offerCount * offerPrice + remainder * priceMap.get(item);
             } else {
                 totalCost += count * priceMap.get(item);
             }
         }
+
         return totalCost;
     }
 }
-
-
-
