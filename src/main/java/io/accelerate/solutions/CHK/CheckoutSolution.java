@@ -23,7 +23,7 @@ public class CheckoutSolution {
         Map<Character, int[]> offerMap = new HashMap<>();
         offerMap.put('A', new int[]{3, 130});
         offerMap.put('B', new int[]{2, 45});
-        offerMap.put('E', new int[]{2, 48});
+        offerMap.put('E', new int[]{2, 40});
 
         Map<Character, Integer> countMap = new HashMap<>();
         for (char item : skus.toCharArray()) {
@@ -55,5 +55,6 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
 
 
