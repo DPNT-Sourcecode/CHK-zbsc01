@@ -26,7 +26,7 @@ public class CheckoutSolution {
         Map<Character, Integer> countMap = new HashMap<>();
         for (char item : skus.toCharArray()) {
             if (!priceMap.containsKey(item)) {
-                return -1;
+                return 0;
             }
             countMap.put(item, countMap.getOrDefault(item, 0) + 1);
         }
@@ -53,3 +53,4 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
