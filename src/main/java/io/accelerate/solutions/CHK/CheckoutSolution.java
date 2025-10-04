@@ -6,8 +6,11 @@ import java.util.Map;
 
 public class CheckoutSolution {
     public Integer checkout(String skus) {
-        if (skus == null || skus.isEmpty()) {
+        if (skus == null) {
             return -1;
+        }
+        if(skus.isEmpty()) {
+            return 0;
         }
 
         Map<Character, Integer> priceMap = new HashMap<>();
