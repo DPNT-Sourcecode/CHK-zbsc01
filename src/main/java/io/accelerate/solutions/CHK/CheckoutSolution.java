@@ -20,13 +20,14 @@ public class CheckoutSolution {
         offerMap.put('A', new int[]{3, 130});
         offerMap.put('B', new int[]{2, 45});
 
+//        for (char item : skus.toCharArray()) {
+//
+//        }
+        Map<Character, Integer> countMap = new HashMap<>();
         for (char item : skus.toCharArray()) {
             if (!priceMap.containsKey(item)) {
                 return -1;
             }
-        }
-        Map<Character, Integer> countMap = new HashMap<>();
-        for (char item : skus.toCharArray()) {
             countMap.put(item, countMap.getOrDefault(item, 0) + 1);
         }
         int totalCost = 0;
