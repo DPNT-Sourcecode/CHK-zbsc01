@@ -46,16 +46,16 @@ public class CheckoutSolution {
         offerMap.put('F', Collections.singletonList(new int[]{3, 20}));
         offerMap.put('H', Arrays.asList(new int[]{10, 80}));
         offerMap.put('K', Collections.singletonList(new int[]{2, 150}));
-        offerMap.put('M', Collections.singletonList(new int[]{3, 40}));
+//        offerMap.put('M', Collections.singletonList(new int[]{3, 40}));
         offerMap.put('N', Collections.singletonList(new int[]{3, 120}));
         offerMap.put('P', Collections.singletonList(new int[]{3, 200}));
         offerMap.put('Q', Collections.singletonList(new int[]{3, 80}));
         offerMap.put('R', Collections.singletonList(new int[]{3, 130}));
-        offerMap.put('S', Collections.singletonList(new int[]{3, 90}));
+//        offerMap.put('S', Collections.singletonList(new int[]{3, 90}));
         offerMap.put('U', Collections.singletonList(new int[]{2, 100}));
         offerMap.put('V', Arrays.asList(new int[]{3, 130}, new int[]{2, 90}));
-        offerMap.put('W', Collections.singletonList(new int[]{3, 130}));
-        offerMap.put('T', Collections.singletonList(new int[]{3, 120}));
+//        offerMap.put('W', Collections.singletonList(new int[]{3, 130}));
+//        offerMap.put('T', Collections.singletonList(new int[]{3, 120}));
 
 
         // Count items
@@ -101,4 +101,5 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
 
