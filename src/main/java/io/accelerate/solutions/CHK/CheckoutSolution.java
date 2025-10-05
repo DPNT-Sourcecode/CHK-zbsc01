@@ -62,10 +62,19 @@ public class CheckoutSolution {
         }
 
 
-//        int eCount = countMap.getOrDefault('E', 0);
-//        int freeBCount = eCount / 2;
-//        int bCount = countMap.getOrDefault('B', 0);
-//        countMap.put('B', Math.max(0, bCount - freeBCount));
+        int eCount = countMap.getOrDefault('E', 0);
+        int freeBCount = eCount / 2;
+        if(freeBCount > 0) {
+            int bCount = countMap.getOrDefault('B', 0);
+            countMap.put('B', Math.max(0, bCount - freeBCount));
+        }
+
+        int nCount = countMap.getOrDefault('N', 0);
+        int freeMCount = nCount / 3;
+        if(freeMCount > 0) {
+            int mCount = countMap.getOrDefault('M', 0);
+            countMap.put('M', Math.max(0, mCount - freeBCount));
+        }
 
         // Calculate total cost
         int totalCost = 0;
