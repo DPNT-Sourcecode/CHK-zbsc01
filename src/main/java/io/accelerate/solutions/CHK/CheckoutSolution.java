@@ -5,8 +5,7 @@ import java.util.*;
 
 public class CheckoutSolution {
     public Integer checkout(String skus) {
-        if (skus == null) return -1;
-        if (skus.isEmpty()) return 0;
+        if (skus == null || skus.isEmpty()) return 0;
 
         // Prices
         Map<Character, Integer> priceMap = new HashMap<>();
@@ -15,11 +14,15 @@ public class CheckoutSolution {
         priceMap.put('C', 20);
         priceMap.put('D', 15);
         priceMap.put('E', 40);
+        priceMap.put('F', 10);
+
+
 
         // Offers: Map<Item, List of [quantity, price]>
         Map<Character, List<int[]>> offerMap = new HashMap<>();
         offerMap.put('A', Arrays.asList(new int[]{5, 200}, new int[]{3, 130}));
         offerMap.put('B', Collections.singletonList(new int[]{2, 45}));
+        offerMap.put('F', Collections.singletonList(new int[]{3, 20}));
 
         // Count items
         Map<Character, Integer> countMap = new HashMap<>();
