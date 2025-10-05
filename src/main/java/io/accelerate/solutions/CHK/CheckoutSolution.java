@@ -47,13 +47,7 @@ public class CheckoutSolution {
             countMap.put(ch, countMap.getOrDefault(ch, 0) + 1);
         }
 
-//        // "2E get one B free"
-//        int eCount = countMap.getOrDefault('E', 0);
-//        int freeBCount = eCount / 2;
-//        if (freeBCount > 0) {
-//            int bCount = countMap.getOrDefault('B', 0);
-//            countMap.put('B', Math.max(0, bCount - freeBCount));
-//        }
+
 //
 //        // "3N get one M free"
 //        int nCount = countMap.getOrDefault('N', 0);
@@ -83,6 +77,7 @@ public class CheckoutSolution {
 
         // Compute total
         int totalCost = 0;
+        int itemCost = 0;
         for (Map.Entry<Character, Integer> entry : countMap.entrySet()) {
             char item = entry.getKey();
             int count = entry.getValue();
@@ -97,11 +92,23 @@ public class CheckoutSolution {
                     totalCost += numOffers * offerPrice;
                     count %= qty;
                 }
+
+                // for U
+                if (offerMap.containsKey("U") ){
+                    int freeCount = count/3;
+                    int chargedItemCount = count - freeCount;
+                    itemCost += chargedItemCount * price;
+                }
+                itemCost += count * price;
+                totalCost += itemCost;
+
+            } else {
+                totalCost += count * price;
             }
 
-            totalCost += count * price;
         }
 
         return totalCost;
     }
 }
+
