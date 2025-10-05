@@ -28,6 +28,7 @@ public class CheckoutSolution {
         priceMap.put('Q', 30);
         priceMap.put('R', 50);
         priceMap.put('S', 30);
+        priceMap.put('T', 20);
         priceMap.put('U', 40);
         priceMap.put('V', 50);
         priceMap.put('W', 20);
@@ -100,3 +101,4 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
