@@ -47,7 +47,7 @@ public class CheckoutSolution {
         offerMap.put('H', Arrays.asList(new int[]{10, 80}));
         offerMap.put('K', Collections.singletonList(new int[]{2, 150}));
         offerMap.put('N', Collections.singletonList(new int[]{3, 120}));
-        offerMap.put('P', Collections.singletonList(new int[]{3, 150}));
+        offerMap.put('P', Collections.singletonList(new int[]{3, 200}));
         offerMap.put('Q', Collections.singletonList(new int[]{3, 80}));
         offerMap.put('R', Collections.singletonList(new int[]{3, 130}));
         offerMap.put('U', Collections.singletonList(new int[]{2, 100}));
@@ -106,4 +106,5 @@ public class CheckoutSolution {
         return totalCost;
     }
 }
+
 
