@@ -3,112 +3,99 @@ package io.accelerate.solutions.CHK;
 
 import java.util.*;
 
+
 public class CheckoutSolution {
     public Integer checkout(String skus) {
-        if (skus == null || skus.isEmpty()) return 0;
+        if (skus == null) return -1;
 
-        Map<Character, Integer> priceMap = new HashMap<>();
-        priceMap.put('A', 50); priceMap.put('B', 30); priceMap.put('C', 20);
-        priceMap.put('D', 15); priceMap.put('E', 40); priceMap.put('F', 10);
-        priceMap.put('G', 20); priceMap.put('H', 10); priceMap.put('I', 35);
-        priceMap.put('J', 60); priceMap.put('K', 70); priceMap.put('L', 90);
-        priceMap.put('M', 15); priceMap.put('N', 40); priceMap.put('O', 10);
-        priceMap.put('P', 50); priceMap.put('Q', 30); priceMap.put('R', 50);
-        priceMap.put('S', 20); priceMap.put('T', 20); priceMap.put('U', 40);
-        priceMap.put('V', 50); priceMap.put('W', 20); priceMap.put('X', 17);
-        priceMap.put('Y', 20); priceMap.put('Z', 21);
+        Map<Character, Integer> priceMap = Map.ofEntries(
+                Map.entry('A', 50), Map.entry('B', 30), Map.entry('C', 20),
+                Map.entry('D', 15), Map.entry('E', 40), Map.entry('F', 10),
+                Map.entry('G', 20), Map.entry('H', 10), Map.entry('I', 35),
+                Map.entry('J', 60), Map.entry('K', 70), Map.entry('L', 90),
+                Map.entry('M', 15), Map.entry('N', 40), Map.entry('O', 10),
+                Map.entry('P', 50), Map.entry('Q', 30), Map.entry('R', 50),
+                Map.entry('S', 20), Map.entry('T', 20), Map.entry('U', 40),
+                Map.entry('V', 50), Map.entry('W', 20), Map.entry('X', 17),
+                Map.entry('Y', 20), Map.entry('Z', 21)
+        );
 
-        // Offers: Map<Item, List of [quantity, price]>
         Map<Character, List<int[]>> offerMap = new HashMap<>();
-        offerMap.put('A', Arrays.asList(new int[]{5, 200}, new int[]{3, 130}));
-        offerMap.put('B', Collections.singletonList(new int[]{2, 45}));
-        offerMap.put('E', Collections.singletonList(new int[]{2, 40}));
-        offerMap.put('F', Collections.singletonList(new int[]{3, 20}));
-        offerMap.put('H', Arrays.asList(new int[]{10, 80}, new int[]{5, 45}));
-        offerMap.put('I', Collections.singletonList(new int[]{3, 80}));
-        offerMap.put('K', Collections.singletonList(new int[]{2, 120}));
-        offerMap.put('M', Collections.singletonList(new int[]{3, 15}));
-        offerMap.put('P', Collections.singletonList(new int[]{5, 200}));
-        offerMap.put('Q', Collections.singletonList(new int[]{3, 80}));
-        offerMap.put('R', Collections.singletonList(new int[]{3, 50}));
+        offerMap.put('A', List.of(new int[]{5, 200}, new int[]{3, 130}));
+        offerMap.put('B', List.of(new int[]{2, 45}));
+        offerMap.put('H', List.of(new int[]{10, 80}, new int[]{5, 45}));
+        offerMap.put('K', List.of(new int[]{2, 120}));
+        offerMap.put('P', List.of(new int[]{5, 200}));
+        offerMap.put('Q', List.of(new int[]{3, 80}));
+        offerMap.put('V', List.of(new int[]{3, 130}, new int[]{2, 90}));
 
-        offerMap.put('S', Arrays.asList(new int[]{3, 45}));
-        offerMap.put('T', Arrays.asList(new int[]{3, 45}));
-        offerMap.put('X', Arrays.asList(new int[]{3, 45}));
-        offerMap.put('Z', Arrays.asList(new int[]{3, 45}));
-        offerMap.put('U', Collections.singletonList(new int[]{3, 40}));
-        offerMap.put('V', Arrays.asList(new int[]{3, 130}, new int[]{2, 90}));
-        offerMap.put('W', Collections.singletonList(new int[]{3, 45}));
-
-        // Count items
+        // Count SKUs
         Map<Character, Integer> countMap = new HashMap<>();
-        for (char ch : skus.toCharArray()) {
-            if (!priceMap.containsKey(ch)) return -1;
-            countMap.put(ch, countMap.getOrDefault(ch, 0) + 1);
+        for (char c : skus.toCharArray()) {
+            if (!priceMap.containsKey(c)) return -1;
+            countMap.put(c, countMap.getOrDefault(c, 0) + 1);
         }
 
+        // 2E => get 1 B free
+        int freeBs = countMap.getOrDefault('E', 0) / 2;
+        countMap.put('B', Math.max(0, countMap.getOrDefault('B', 0) - freeBs));
 
-//
-//        // "3N get one M free"
-//        int nCount = countMap.getOrDefault('N', 0);
-//        int freeMCount = nCount / 3;
-//        if (freeMCount > 0) {
-//            int mCount = countMap.getOrDefault('M', 0);
-//            countMap.put('M', Math.max(0, mCount - freeMCount));
-//        }
-//
-//        // "3R get one Q free"
-//        int rCount = countMap.getOrDefault('R', 0);
-//        int freeQCount = rCount / 3;
-//        if (freeQCount > 0) {
-//            int qCount = countMap.getOrDefault('Q', 0);
-//            countMap.put('Q', Math.max(0, qCount - freeQCount));
-//        }
-//
-//        // "3U get one U free"
-//        int uCount = countMap.getOrDefault('U', 0);
-//        int uCharged = uCount - (uCount / 4); // Every 4 U -> 3 charged
-//        countMap.put('U', uCharged);
-//
-//        // "2F get one F free" = Every 3 Fs -> only pay for 2
-//        int fCount = countMap.getOrDefault('F', 0);
-//        int fCharged = fCount - (fCount / 3);
-//        countMap.put('F', fCharged);
+        // 3N => get 1 M free
+        int freeMs = countMap.getOrDefault('N', 0) / 3;
+        countMap.put('M', Math.max(0, countMap.getOrDefault('M', 0) - freeMs));
 
-        // Compute total
-        int totalCost = 0;
-        int itemCost = 0;
+        // 3R => get 1 Q free
+        int freeQs = countMap.getOrDefault('R', 0) / 3;
+        countMap.put('Q', Math.max(0, countMap.getOrDefault('Q', 0) - freeQs));
+
+        // 3U => get 1 U free => every 4 U, only 3 are charged
+        int uCount = countMap.getOrDefault('U', 0);
+        int chargedU = uCount - (uCount / 4);
+        countMap.put('U', chargedU);
+
+        // 2F => get 1 F free => every 3 Fs, only pay for 2
+        int fCount = countMap.getOrDefault('F', 0);
+        int chargedF = fCount - (fCount / 3);
+        countMap.put('F', chargedF);
+
+        // any 3 of (S,T,X,Y,Z) for 45
+        List<Character> groupItems = List.of('S', 'T', 'X', 'Y', 'Z');
+        List<Character> groupSortedByPrice = new ArrayList<>(groupItems);
+        groupSortedByPrice.sort((a, b) -> Integer.compare(priceMap.get(b), priceMap.get(a))); // Desc by price
+
+        int groupCount = 0;
+        for (char item : groupItems) groupCount += countMap.getOrDefault(item, 0);
+        int groupOffers = groupCount / 3;
+        int groupOfferCost = groupOffers * 45;
+
+        int itemsToRemove = groupOffers * 3;
+        for (char item : groupSortedByPrice) {
+            int available = countMap.getOrDefault(item, 0);
+            int used = Math.min(available, itemsToRemove);
+            countMap.put(item, available - used);
+            itemsToRemove -= used;
+            if (itemsToRemove == 0) break;
+        }
+
+        int total = groupOfferCost;
+
         for (Map.Entry<Character, Integer> entry : countMap.entrySet()) {
             char item = entry.getKey();
             int count = entry.getValue();
             int price = priceMap.get(item);
 
             if (offerMap.containsKey(item)) {
-                List<int[]> offers = offerMap.get(item);
+                List<int[]> offers = new ArrayList<>(offerMap.get(item));
                 offers.sort((a, b) -> Integer.compare(b[0], a[0]));
                 for (int[] offer : offers) {
-                    int qty = offer[0], offerPrice = offer[1];
-                    int numOffers = count / qty;
-                    totalCost += numOffers * offerPrice;
-                    count %= qty;
+                    int num = count / offer[0];
+                    total += num * offer[1];
+                    count %= offer[0];
                 }
-
-                // for U
-                if (offerMap.containsKey("U") ){
-                    int freeCount = count/3;
-                    int chargedItemCount = count - freeCount;
-                    itemCost += chargedItemCount * price;
-                }
-                itemCost += count * price;
-                totalCost += itemCost;
-
-            } else {
-                totalCost += count * price;
             }
-
+            total += count * price;
         }
 
-        return totalCost;
+        return total;
     }
 }
-
