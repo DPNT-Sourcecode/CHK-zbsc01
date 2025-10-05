@@ -1,18 +1,14 @@
 package io.accelerate.solutions.CHK;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CheckoutSolution {
     public Integer checkout(String skus) {
-        if (skus == null) {
-            return -1;
-        }
-        if(skus.isEmpty()) {
-            return 0;
-        }
+        if (skus == null) return -1;
+        if (skus.isEmpty()) return 0;
 
+        // Prices
         Map<Character, Integer> priceMap = new HashMap<>();
         priceMap.put('A', 50);
         priceMap.put('B', 30);
@@ -20,36 +16,49 @@ public class CheckoutSolution {
         priceMap.put('D', 15);
         priceMap.put('E', 40);
 
-        Map<Character, int[]> offerMap = new HashMap<>();
-        offerMap.put('A', new int[]{3, 130});
-        offerMap.put('B', new int[]{2, 45});
-        offerMap.put('E', new int[]{2, 40});
+        // Offers: Map<Item, List of [quantity, price]>
+        Map<Character, List<int[]>> offerMap = new HashMap<>();
+        offerMap.put('A', Arrays.asList(new int[]{5, 200}, new int[]{3, 130}));
+        offerMap.put('B', Collections.singletonList(new int[]{2, 45}));
 
+        // Count items
         Map<Character, Integer> countMap = new HashMap<>();
-        for (char item : skus.toCharArray()) {
-            if (!priceMap.containsKey(item)) {
-                return -1; // Fixed: return -1 for illegal SKU
-            }
-            countMap.put(item, countMap.getOrDefault(item, 0) + 1);
+        for (char ch : skus.toCharArray()) {
+            if (!priceMap.containsKey(ch)) return -1; // illegal item
+            countMap.put(ch, countMap.getOrDefault(ch, 0) + 1);
         }
 
+        // Apply E → free B offer
+        int eCount = countMap.getOrDefault('E', 0);
+        int freeBCount = eCount / 2;
+        int bCount = countMap.getOrDefault('B', 0);
+        countMap.put('B', Math.max(0, bCount - freeBCount));
+
+        // Calculate total cost
         int totalCost = 0;
+
         for (Map.Entry<Character, Integer> entry : countMap.entrySet()) {
             char item = entry.getKey();
             int count = entry.getValue();
+            int price = priceMap.get(item);
 
             if (offerMap.containsKey(item)) {
-                int[] offer = offerMap.get(item);
-                int offerQuantity = offer[0];
-                int offerPrice = offer[1];
+                List<int[]> offers = offerMap.get(item);
+                // Sort offers by quantity descending to prioritize better offers
+                offers.sort((a, b) -> Integer.compare(b[0], a[0]));
 
-                int offerCount = count / offerQuantity;
-                int remainder = count % offerQuantity;
+                for (int[] offer : offers) {
+                    int offerQty = offer[0];
+                    int offerPrice = offer[1];
 
-                totalCost += offerCount * offerPrice + remainder * priceMap.get(item);
-            } else {
-                totalCost += count * priceMap.get(item);
+                    int numOffers = count / offerQty;
+                    totalCost += numOffers * offerPrice;
+                    count %= offerQty;
+                }
             }
+
+            // Add remaining items at regular price
+            totalCost += count * price;
         }
 
         return totalCost;
